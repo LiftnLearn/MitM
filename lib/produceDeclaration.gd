@@ -1,3 +1,5 @@
+#TODO: declare output type in the documentation
+
 isDeclareOperation :=
 function(node)
     return (isFunctionCall(node) and node.name.identifier = "DeclareOperation");
@@ -41,9 +43,10 @@ unwrapFilters := function(list) end;
 # Convenience function for formatting output for global functions
 #
 # funcName : name of global function to be wrapped
+# resultFilters : filters of the output
 #
 #########################################################################
-outputGlobalFunctions := function(funcName) end;
+outputGlobalFunctions := function(funcName, resultFilters) end;
  
 #########################################################################
 # outputConstructor

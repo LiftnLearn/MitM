@@ -55,11 +55,12 @@ function(obj)
 end;
 
 outputGlobalFunctions :=
-function(funcName)
+function(funcName, resultFilters)
     local str;
 
     #what about filters?
-    str := Concatenation("MitM_DeclareGlobalFunction(\"", funcName, "\");\n");
+    str := Concatenation("MitM_DeclareGlobalFunction(\"", funcName,
+                         "\", ", resultFilters, ");\n");
     str := Concatenation(str, "MitM_InstallGlobalFunction(",
         funcName, ", function (arg...) return CallFuncList( ",
         funcName, ", arg); end);\n");
@@ -107,7 +108,8 @@ function(objectifys, declaredOperations, outputDest)
         if (objectifys.(recName).type = "BindGlobal") then
             ;
         elif (objectifys.(recName).type = "InstallGlobalFunction") then
-            AppendTo(outputDest, outputGlobalFunctions(recName));
+            #TODO: pass actual filters
+            AppendTo(outputDest, outputGlobalFunctions(recName, []));
         elif(IsBound(declaredOperations.(recName))) then
             AppendTo(outputDest, outputConstructor(recName,
                 declaredOperations.(recName).inputFilters,
