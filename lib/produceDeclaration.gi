@@ -60,7 +60,7 @@ function(funcName, resultFilters)
 
     #what about filters?
     str := Concatenation("MitM_DeclareGlobalFunction(\"", funcName,
-                         "\", ", resultFilters, ");\n");
+                         "\", ", String(resultFilters), ");\n");
     str := Concatenation(str, "MitM_InstallGlobalFunction(",
         funcName, ", function (arg...) return CallFuncList( ",
         funcName, ", arg); end);\n");
@@ -148,17 +148,17 @@ function(headerRec, implementRec, outputDest)
 end;
 
 declareOperationsCaller := 
-function(fileDec, fileImpl)
-    local stringDec, stringImpl, recordDec, recordImpl, g, r;
+function(fileDec, fileImpl, outputPath)
+    local stringDec, stringImpl, recordDec, recordImpl;
 
-    fileDec := IO_File(Concatenation("json_output/", fileDec));#csetgrp.gd.json");
-    fileImpl := IO_File(Concatenation("json_output/", fileImpl));#csetgrp.gi.json");
+    fileDec := IO_File(fileDec);#csetgrp.gd.json");
+    fileImpl := IO_File(fileImpl);#csetgrp.gi.json");
     stringDec := IO_ReadUntilEOF(fileDec);;
     stringImpl := IO_ReadUntilEOF(fileImpl);;
     recordDec := JsonStringToGap(stringDec);;
     recordImpl := JsonStringToGap(stringImpl);;
 
-    declareOperations(recordDec, recordImpl, "test.gd");
+    declareOperations(recordDec, recordImpl, outputPath);
 end;
 
 
